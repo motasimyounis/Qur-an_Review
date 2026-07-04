@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مراجعة القرآن الكريم</title>
+  
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="favicon.ico">
+</head>
+<body>
+
+<nav id="sidebar"></nav>
+
+<section id="content">
+  <div class="header">
+    <h1 id="partTitle">الجزء</h1>
+    <span>الإجمالي: <span id="partTotal">0</span></span>
+    <div class="header-controls">
+      <input type="number" id="targetInput" placeholder="الهدف" min="1">
+      <button id="resetBtn">محو العداد </button>
+    </div>
+  </div>
+  <div id="pagesContainer"></div>
+</section>
+<div id="overlay">
+  <span id="overlayPartNum"></span>
+  <span id="overlayPageNum"></span>
+  <button id="overlayCounterBtn"></button>
+  <img id="pageImage" alt="صورة الصفحة">
+
+<div id="bottomControls">
+  <div id="audioControls">
+    <button id="recordBtn">🎙️ تسجيل</button>
+    <button id="stopBtn" disabled>⏹️ حفظ</button>
+    <button id="playBtn" disabled>▶️ تشغيل</button>
+    <button id="deleteAudioBtn" disabled>🗑️ حذف</button>
+    <!-- ✅ قائمة التحكم بسرعة التشغيل -->
+<select id="speedControl" class="speed-select">
+  <option value="0.5">0.5x</option>
+  <option value="1" selected>1x</option>
+  <option value="1.5">1.5x</option>
+  <option value="2">2x</option>
+</select>
+
+
+  </div>
+  <button id="closeBtn">إغلاق</button>
+</div>
+
+</div>
+
+
+<div id="bottomNav">
+    <button title="الإعدادات"> 🧰</button>
+    <button title="الملاحظات">🧷</button>
+    <button title="الرئيسية">🏠</button>
+</div>
+
+<div id="settingsMenu" class="glass">
+  <hr style="margin: 4px 0;">
+  
+  <button id="importantSitesBtn" style="padding:8px 12px; display:block; width:160px; text-align:right;">🌐 مواقع مهمة</button>
+  <ul id="importantSitesList" style="display:none; margin-top:8px; width:160px; padding:0; list-style:none;">
+    <li><a href="https://www.quran.com/" target="_blank" rel="noopener" style="display:block; padding:8px; text-decoration:none;">📖 موقع قران</a></li>
+    <li><a href="https://www.altafsir.com/" target="_blank" rel="noopener" style="display:block; padding:8px; text-decoration:none;">📚 التفسير</a></li>
+    <li><a href="https://sunnah.com/" target="_blank" rel="noopener" style="display:block; padding:8px; text-decoration:none;">🕌 السنة</a></li>
+    <li><a href="https://islamqa.info/" target="_blank" rel="noopener" style="display:block; padding:8px; text-decoration:none;">💡اسلام س ج</a></li>
+  </ul>
+
+  <button class="mushafSelector" data-type="tajweed" style="padding:8px 12px; display:block; width:160px; text-align:right;">📘 مصحف التجويد</button>
+  <button class="mushafSelector" data-type="normal" style="padding:8px 12px; display:block; width:160px; text-align:right;">📖 مصحف عادي</button>
+
+  <button class="settingsOption" data-target="generalNotesSection" style="padding:8px 12px; display:block; width:160px; text-align:right;">📒 نوتة عامة</button>
+  <button class="settingsOption" data-target="tasksSection" style="padding:8px 12px; display:block; width:160px; text-align:right;">✅ المهام اليومية</button>
+  <button class="settingsOption" data-target="logSection" style="padding:8px 12px; display:block; width:160px; text-align:right;">🗓️ السجل اليومي</button>
+  <button class="settingsOption" data-target="calendarSection" style="padding:8px 12px; display:block; width:160px; text-align:right;">📅 المراجعة اليومية</button>
+  <button id="deleteAllAudioBtn" style="padding:8px 12px; display:block; width:160px; text-align:right; ">🗑️ حذف جميع التسجيلات</button>
+
+</div>
+
+<div id="generalNotesSection" class="extra-section" style="display:none; padding:20px;">
+  <button class="backBtn" onclick="backToMain()">↩️ رجوع</button>
+  <h2>📒 نوتة عامة</h2>
+  <textarea id="generalNoteArea" style="width:100%; height:300px;"></textarea>
+</div>
+
+<div id="tasksSection" class="extra-section" style="display:none; padding:0;">
+  <button class="backBtn" onclick="backToMain()">↩️ رجوع</button>
+  <h2 style="padding:10px 20px; margin:0;">✅ المهام اليومية</h2>
+  <div class="task-input-container">
+    <input id="newTaskInput" type="text" placeholder="أضف مهمة جديدة">
+    <button onclick="addTask()">➕ إضافة</button>
+  </div>
+  <ul id="taskList" style="margin:0; padding:10px 10px; list-style:none;"></ul>
+</div>
+
+<div id="logSection" class="extra-section" style="display:none; padding:20px;">
+  <button class="backBtn" onclick="backToMain()">↩️ رجوع</button>
+  <h2>🗓️ السجل اليومي</h2>
+  <textarea id="dailyLogArea" style="width:100%; height:300px;"></textarea>
+</div>
+
+<div id="calendarSection" class="extra-section" style="display:none; padding: 20px;">
+  <button class="backBtn" onclick="backToMain()">↩️ رجوع</button>
+  <h2>📅 اجمالي المراجعة اليومي</h2>
+  <div id="calendarContainer" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 20px;"></div>
+</div>
+<!-- 🕒 Stopwatch عائم -->
+<div id="stopwatch">
+  <span id="stopwatchTime">00:00:00</span>
+</div>
+
+<script src="main.js" defer></script>
+</body>
+</html>
